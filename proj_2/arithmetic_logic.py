@@ -17,15 +17,15 @@ def add16(a:list[int], b:list[int]) -> list[int]:
 
     #TODO: Maybe there is an alternative to the disgusting int cast
     r = deque()
-    curr_sum, curr_carry = half_adder(int(a[-1]), int(b[-1]))
-    r.appendleft(curr_sum)
+    c_s, c_c = half_adder(int(a[-1]), int(b[-1]))
+    r.appendleft(c_s)
     
     for i in range(len(a) - 2, -1, -1):
-        curr_sum, curr_carry = full_adder(int(a[i]), int(b[i]), curr_carry)
-        r.appendleft(curr_sum)
+        c_s, c_c = full_adder(int(a[i]), int(b[i]), c_c)
+        r.appendleft(c_s)
 
     print('\n',a,'\n',b)    
-    if(curr_carry): r.appendleft(curr_carry)
+    if(c_c): r.appendleft(c_c)
 
     return [*r]
 
