@@ -3,26 +3,6 @@
 import typing
 import math
 
-"""
-Logic gates to build:
-    - NAND [X]
-    - NOT [X]
-    - AND [X]
-    - OR [X]
-    - XOR [X]
-    - MUX [X]
-    - DMUX [X]
-    - NOT16
-    - OR16 [X]
-    - MUX16 [X]
-    - OR8WAY
-    - MUX4WAY16
-    - MUX8WAY16
-    - DMUX4WAY16
-    - DMUX8WAY16
-
-"""
-
 class Gate(object):
 
     def __init__(self, **kwargs):
@@ -70,40 +50,22 @@ class Gate(object):
 
     def __repr__(self): return f'<undefined> gate with inputs: {self.__dict__}'
 
-def test_gates():
-    print('\n--- Testing AND ---')
-    for i in range(8):
-        b = bin(i)[2:].zfill(3)
-        try:
-            assert Gate(a=int(b[0]), b=int(b[1]), c=int(b[2])).and_gate() == int(b[0]) & int(b[1]) & int(b[2])
-            print(b,' : (PASSED)')
-        except AssertionError as m:
-            print(b,' : >>FAILED<<')
+def mux16(a:list[int], b:list[int], sel:int) -> list[int]:
 
-    print('\n--- Testing NAND ---')
-    for i in range(8):
-        b = bin(i)[2:].zfill(3)
-        try:
-            assert Gate(a=int(b[0]), b=int(b[1]), c=int(b[2])).nand_gate() == (not int(b[0]) & int(b[1]) & int(b[2]))
-            print(b,' : (PASSED)')
-        except AssertionError as m:
-            print(b,' : >>FAILED<<')
+    if(sel == 0): return a
+    elif(sel == 1): return b
+    return None
 
-    print('\n--- Testing OR ---')
-    for i in range(8):
-        b = bin(i)[2:].zfill(3)
-        try:
-            assert Gate(a=int(b[0]), b=int(b[1]), c=int(b[2])).or_gate() == int(b[0]) | int(b[1]) | int(b[2])
-            print(b,' : (PASSED)')
-        except AssertionError as m:
-            print(b,' : >>FAILED<<')
+def not16(a:list[int]) -> list[int]: return [int(not i) for i in a]
 
-    print('\n--- Testing XOR ---')
-    for i in range(8):
-        b = bin(i)[2:].zfill(3)
-        try:
-            assert Gate(a=int(b[0]), b=int(b[1]), c=int(b[2])).xor_gate() == int(b[0]) ^ int(b[1]) ^ int(b[2])
-            print(b,' : (PASSED)')
-        except AssertionError as m:
-            print(b,' : >>FAILED<<')
+def and16(a:list[int], b:list[int]) -> list[int]: return [a[i] & b[i] for i in range(len(a))]
+
+def or8way(a:list[int]) -> int:
+
+    b = a[0]
+
+    for i in range(1, len(a)): b = b | a[i]
+
+    return b
+
 
